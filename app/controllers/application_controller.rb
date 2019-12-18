@@ -13,31 +13,46 @@ class ApplicationController < Sinatra::Base
     register Sinatra::Flash
   end
 
-  get "/" do
-    if logged_in?
-      redirect "/users/#{current_user.id}"
-    else
-      erb :index
-    end
+#   get "/" do
+#     if logged_in?
+#       redirect "/users/#{current_user.id}"
+#     else
+#       erb :index
+#     end
+#   end
+#
+#   helpers do
+#
+#     # returns a boolean if the user is logged in or not
+#     def logged_in?
+#       !!current_user
+#     end
+#
+#     # keeps track of the logged in user
+#     def current_user
+#       User.find_by(id: session[:user_id])
+#     end
+#
+#     # create an authorization helper for edit/delete
+#     # def authorized_to_edit?(post)
+#     #   post.user == current_user
+#     # end
+#
+#   end
+#
+# end
+get '/' do
+  erb :index
+end
+
+helpers do
+  def logged_in?
+    !session[:user_id].nil?
   end
 
-  helpers do
-
-    # returns a boolean if the user is logged in or not
-    def logged_in?
-      !!current_user
-    end
-
-    # keeps track of the logged in user
-    def current_user
-      User.find_by(id: session[:user_id])
-    end
-
-    # create an authorization helper for edit/delete
-    # def authorized_to_edit?(post)
-    #   post.user == current_user
-    # end
-
+  def current_user
+    User.find(session[:user_id])
   end
+end
 
 end
