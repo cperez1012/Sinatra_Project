@@ -6,6 +6,8 @@ class CreateCompanyInvestment < ActiveRecord::Migration
       t.integer :year_founded
       t.string :industry
       t.string :imaage_url
+
+      t.timestamp null:false
     end
   end
 end
