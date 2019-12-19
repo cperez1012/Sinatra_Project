@@ -1,0 +1,3 @@
+class InvesthubController < ApplicationController
+  
+end

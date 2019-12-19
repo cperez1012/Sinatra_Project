@@ -1,5 +1,10 @@
 class UsersController < ApplicationController
 
+  get '/users/:slug' do
+    @user = current_user
+    erb :'users/show'
+  end
+  
   # render login form
   get "/login" do
     if logged_in?
@@ -41,7 +46,7 @@ class UsersController < ApplicationController
   get '/signup' do
     #render my sign form
     if logged_in?
-      redirect '/investhub'
+      redirect '/show'
     end
     erb :'/users/create_user'
   end
