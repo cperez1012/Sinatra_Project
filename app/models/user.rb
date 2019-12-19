@@ -1,5 +1,7 @@
 class User < ActiveRecord::Base
+  has_many :investments
   has_many :company_investments
+  has_many :stocks, through: :company_investments
 
   has_secure_password
   def slug

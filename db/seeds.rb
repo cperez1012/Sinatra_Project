@@ -1,0 +1,11 @@
+user = User.create(username: "Christian", email: "perezchristian1012@gmail.com", password: "abc123", wallet: 1000)
+google = CompanyInvestment.create(name: "Google", description: "Search Engine Company", year_founded: 1990, industry: "Technology", image_url: "", user_id: user.id)
+stock_1= Stock.create(price: 10, company_investment_id: google.id)
+stock_2= Stock.create(price: 10, company_investment_id: google.id)
+stock_3= Stock.create(price: 10, company_investment_id: google.id)
+
+gary = User.create(username: "Gary", email: "gary@gmail.com", password: "pw", wallet: 1000)
+ford = CompanyInvestment.create(name: "Ford", description: "Car Company", year_founded: 1920, industry: "Automobile", image_url: "", user_id: gary.id)
+stock_4= Stock.create(price: 20, company_investment_id: ford.id)
+stock_5= Stock.create(price: 20, company_investment_id: ford.id)
+stock_6= Stock.create(price: 20, company_investment_id: ford.id)
