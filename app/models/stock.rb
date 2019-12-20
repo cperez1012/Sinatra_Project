@@ -1,5 +1,5 @@
 class Stock < ActiveRecord::Base
 
-  belongs_to :company_investment
+  belongs_to :company
 
 end

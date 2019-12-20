@@ -1,6 +1,6 @@
-class CreateCompanyInvestment < ActiveRecord::Migration
+class CreateCompanys < ActiveRecord::Migration
   def change
-    create_table :company_investments do |t|
+    create_table :companys do |t|
       t.string :name
       t.text :description
       t.integer :year_founded
