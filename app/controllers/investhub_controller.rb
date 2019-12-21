@@ -13,8 +13,8 @@ class InvesthubController < ApplicationController
       redirect '/login'
     end
     @user = current_user
-    @investhub = Company.all
-    erb :'investhub/investments'
+    @Companys = Company.all
+    erb :'/show_investments'
   end
 
   post '/investhub' do

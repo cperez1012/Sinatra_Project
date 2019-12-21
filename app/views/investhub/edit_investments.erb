@@ -1,0 +1,8 @@
+<h1>Edit your Investment Portfolio:</h1>
+
+<form action="/investhub<%= @investment.id %>" method="post">
+  <input id="hidden" type="hidden" name="_method" value="PATCH">
+  <label for="name"></label>
+  <input type="text" name="name" value="<%= @Company.name %>">
+  <input type="submit" value="submit">
+</form>

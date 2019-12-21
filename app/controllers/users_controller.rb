@@ -47,8 +47,9 @@ class UsersController < ApplicationController
     #render my sign form
     if logged_in?
       redirect '/investhub'
-    end
+    else
     erb :'/users/create_user'
+    end
   end
 
   post '/signup' do
