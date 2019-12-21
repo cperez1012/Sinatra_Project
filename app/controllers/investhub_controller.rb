@@ -1,5 +1,16 @@
 class InvesthubController < ApplicationController
 
+  # use Rack::Flash
+
+  get '/:slug/tips' do
+    @user = User.find_with_slug(params[:slug])
+    if logged_in? && session[:user_id] == @user.id
+        erb :'/users/show'
+    else
+        redirect to "/login"
+    end
+  end
+
   get '/investhub/new' do
     if logged_in?
       erb :'investhub/new'

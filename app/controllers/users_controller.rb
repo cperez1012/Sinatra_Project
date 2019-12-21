@@ -1,86 +1,57 @@
 class UsersController < ApplicationController
 
-  get '/users/:slug' do
-    @user = current_user
-    erb :'users/show'
-  end
-
   # render login form
   get "/login" do
-    if logged_in?
-      redirect '/investhub'
-    end
-    erb :'users/login'
-  end
-
-  # recieve the data (params) from the login form
-  post "/login" do
-    # find the user
-    user = User.find_by(username: params[:username], email: params[:email])
-    # authenticate the user
-    if user && user.authenticate(params[:password])
-      # creating a key/value pair in the session hash using the users id to actually log them in
-      session[:user_id] = user.id
-      # add a success message to the flash hash
-      flash[:message] = "Welcome back #{user.username}"
-      # redirect user's profile (users show)
-      redirect "/investhub"
+    if !logged_in?
+      erb :'users/login'
     else
-      # show an error message
-      flash[:error] = "Your credentials were invalid. Try again!"
-      # redirecting back to the login page
-      # this is where my error message with will display (at the login route)
-      redirect '/login'
+      redirect to '/investhub'
     end
   end
 
-  # users SHOW route
-  get "/users/:id" do
-    # find the user
-    @user = User.find_by(id: params[:id])
-    erb :'/users/show'
+  post '/login' do
+    # binding.pry
+    user = User.find_by(username: params[:username])
+    if user && user.authenticate(params[:password])
+      session[:user_id] = user.id
+      redirect to "#{user.username}/show"
+    else
+      redirect to '/signup'
+    end
   end
 
   # SIGN UP
   # get sign up route that renders signup form
   get '/signup' do
     #render my sign form
-    if logged_in?
-      redirect '/investhub'
+    if !logged_in?
+      erb :'users/create_user'
     else
-    erb :'/users/create_user'
+      redirect to '/investhub'
     end
   end
 
   post '/signup' do
-    user = User.create(params)
-    session[:user_id] = user.id
-    redirect '/investhub'
-
-  end
-
-  # post sign up route that recieve input data from user, create the user, and logs user in
-  post '/users' do
-    # will eventually need to add validations to confirm all inputs are filled out before creating user
-    user = User.create(params)
-    # post sign up route to create user using params and add key/value pair to sessions hash
-    session[:user_id] = user.id
-    # redirect to user profile
-    redirect "/users/investhub"
-  end
-
-  # LOG OUT
-  # get logout that clears the session hash
-  get '/logout' do
-
-    if logged_in?
-    #binding.pry
-      session.clear
+    # binding.pry
+    if params[:username].empty? || params[:password].empty? || params[:email].empty? || params[:confirm_password].empty?
+      redirect to '/signup'
+      # binding.pry
+    elsif params[:password] != params[:confirm_password]
+      flash[:error] = "Your credentials were invalid. Try again!"
+    else
+      user = User.create(username: params[:username], password: params[:password], email: params[:email])
+      session[:user_id] = user.id
+      redirect to '/investhub'
     end
-    #binding.pry
-    # redirect to home/landing page
-
-    redirect '/login'
   end
 
+  get '/logout' do
+    if logged_in?
+      session.clear
+      # binding.pry
+      redirect to '/login'
+    else
+      redirect to '/'
+    end
+  end
 end
