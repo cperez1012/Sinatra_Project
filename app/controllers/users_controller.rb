@@ -4,7 +4,7 @@ class UsersController < ApplicationController
     @user = current_user
     erb :'users/show'
   end
-  
+
   # render login form
   get "/login" do
     if logged_in?
@@ -16,13 +16,13 @@ class UsersController < ApplicationController
   # recieve the data (params) from the login form
   post "/login" do
     # find the user
-    user = User.find_by(email: params[:email])
+    user = User.find_by(username: params[:username], email: params[:email])
     # authenticate the user
     if user && user.authenticate(params[:password])
       # creating a key/value pair in the session hash using the users id to actually log them in
       session[:user_id] = user.id
       # add a success message to the flash hash
-      flash[:message] = "Welcome back #{user.name}"
+      flash[:message] = "Welcome back #{user.username}"
       # redirect user's profile (users show)
       redirect "/investhub"
     else
@@ -46,9 +46,16 @@ class UsersController < ApplicationController
   get '/signup' do
     #render my sign form
     if logged_in?
-      redirect '/show'
+      redirect '/investhub'
     end
     erb :'/users/create_user'
+  end
+
+  post '/signup' do
+    user = User.create(params)
+    session[:user_id] = user.id
+    redirect '/investhub'
+
   end
 
   # post sign up route that recieve input data from user, create the user, and logs user in

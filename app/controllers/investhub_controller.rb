@@ -1,5 +1,5 @@
 class InvesthubController < ApplicationController
-  
+
   get '/investhub/new' do
     if logged_in?
       erb :'investhub/new'
@@ -13,12 +13,12 @@ class InvesthubController < ApplicationController
       redirect '/login'
     end
     @user = current_user
-    @investhub = Investhub.all
+    @investhub = Company.all
     erb :'investhub/investments'
   end
 
   post '/investhub' do
-    if params[:content].empty?
+    if params[:name].empty? || params[:image_url].empty? || params[:year_founded].empty? || params[:industry].empty? || params[:description].empty? || params[:user_id].empty?
       redirect "/investhub/new"
     end
     investhub = Investhub.create(params)
@@ -44,11 +44,11 @@ class InvesthubController < ApplicationController
   end
 
   patch '/investhub/:id' do
-    if params[:content].empty?
+    if params[:name].empty? || params[:image_url].empty? || params[:year_founded].empty? || params[:industry].empty? || params[:description].empty? || params[:user_id].empty?
       redirect "/investhub/#{params[:id]}/edit"
     end
     investhub = Investhub.find(params[:id])
-    investhub.update(content: params[:content])
+    investhub.update(name: params[:name], image_url: params[:image_url], year_founded: params[:year_founded], industry: params[:industry], description: params[:description], user_id: params[:user_id])
     redirect "/investhub/#{investhub.id}"
   end
 
@@ -58,6 +58,6 @@ class InvesthubController < ApplicationController
       redirect '/investhub'
     end
     investhub.destroy
-  end  
-  
+  end
+
 end
