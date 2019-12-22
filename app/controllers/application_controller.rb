@@ -30,8 +30,9 @@ class ApplicationController < Sinatra::Base
       User.find_by(id: session[:user_id])
     end
 
-    def authorized_to_edit?(post)
-      post.user == current_user
+    def authorized_to_edit?(account)
+      account.user == current_user
     end
   end
+
 end
