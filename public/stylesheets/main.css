@@ -88,11 +88,12 @@
     padding-top: 20px;
   }
 
-  a.button {
-  display: block;
-  padding: 10px;
-  background-color: white;
-}
+   a  {
+    display: block;
+    padding: 10px;
+    background-color: white;
+    text-align: center;
+ }
 }
 
 @media screen and (max-width: 600px) {
