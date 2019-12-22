@@ -13,7 +13,7 @@
 
 ActiveRecord::Schema.define(version: 20191219214545) do
 
-  create_table "companys", force: :cascade do |t|
+  create_table "institutions", force: :cascade do |t|
     t.string  "name"
     t.text    "description"
     t.integer "year_founded"
@@ -24,13 +24,13 @@ ActiveRecord::Schema.define(version: 20191219214545) do
 
   create_table "investments", force: :cascade do |t|
     t.integer "user_id"
-    t.integer "company_id"
+    t.integer "institution_id"
   end
 
   create_table "stocks", force: :cascade do |t|
     t.integer "price"
     t.integer "number_of_stocks"
-    t.integer "company_id"
+    t.integer "institution_id"
   end
 
   create_table "users", force: :cascade do |t|

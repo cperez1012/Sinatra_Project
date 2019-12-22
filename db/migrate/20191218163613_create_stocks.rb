@@ -3,7 +3,7 @@ class CreateStocks < ActiveRecord::Migration
     create_table :stocks do |t|
       t.integer :price
       t.integer :number_of_stocks
-      t.integer :company_id
+      t.integer :institution_id
 
       t.timestamp null:false
     end

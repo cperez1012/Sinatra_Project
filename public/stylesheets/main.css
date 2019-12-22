@@ -19,9 +19,6 @@
     line-height: 18px;
   }
 
-  div {
-    background-image: image(Sinatra_Project\public\images\kisspng-finance-financial-risk-financial-services-computer-finance-5abcb1c8e6b325.203127841522315720945.jpg);
-  }
   .wrapper {
     background: #fff;
     -moz-box-shadow: 0 0 10px rgba(0,0,0,.3);
@@ -31,6 +28,8 @@
     max-width: 960px;
     padding: 2.25%; /* 18px / 800px */
     width: 85%;
+    display: inline-block;
+    text-align: center;;
   }
 
   h1 {
@@ -96,7 +95,6 @@
     display: block;
     padding: 10px;
     background-color: white;
-    text-align: center;
  }
 }
 
@@ -128,9 +126,5 @@
   h2 {
     font-size: 18px;
     line-height: 24px;
-  }
-
-  .button {
-    text-align: center;
   }
 }

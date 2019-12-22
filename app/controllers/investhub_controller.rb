@@ -1,7 +1,24 @@
 class InvesthubController < ApplicationController
 
+  get '/investhub' do
+      @investments = Investment.all
+      @user_id = user_id
+      @institution_id = institution_id
+      erb :'investhub/investments'
+  end
+
+  post '/investhub' do
+    if params[:name].empty?
+      redirect to '/investhub/new'
+    end
+  end
+
   get '/investhub/new' do
-    erb :'investhub/new'
+    if logged_in?
+      erb :'investhub/new'
+    else
+      redirect to '/login'
+    end
   end
 
   post '/investhub/new' do

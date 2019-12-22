@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   has_many :investments
-  has_many :companys
-  has_many :stocks, through: :companys
+  has_many :institutions
+  has_many :stocks, through: :institutions
 
   has_secure_password
 

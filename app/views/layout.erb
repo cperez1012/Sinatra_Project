@@ -14,12 +14,7 @@
     <link rel="stylesheet" href="/stylesheets/main.css" />
   </head>
   <body>
-    <div class="nav">
-      <% if logged_in? %>
-      <a href="/posts">All Posts</a>
-      <a href="/">Create a Post</a>
-      <a href="/logout">Log Out</a>
-      <% end %>
+
 
     <div class="wrapper">
       <% if flash[:error] %>
@@ -29,6 +24,11 @@
       <% if flash[:message] %>
       <h3 style="color:green;"><%= flash[:message] %></h3>
       <% end %>
+
+      <div class="nav">
+          <a href = "/users/show">Your dashboard</a>
+          <a href="/signup">Create an Account</a>
+          <a href="/logout">Log Out</a>
 
         <%= yield %>
 
