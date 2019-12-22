@@ -1,8 +1,12 @@
 class UsersController < ApplicationController
 
   get '/users/:slug' do
-    @user = current_user
-    erb :'users/show'
+    if logged_in? && current_user.slug == params[:slug]
+      @user = User.find_by_slug(params[:slug])
+      erb :'/users/show'
+    else
+      redirect to '/'
+    end
   end
 
   get '/signup' do
@@ -10,9 +14,14 @@ class UsersController < ApplicationController
   end
 
   post '/signup' do
-    user = User.create(username: params[:username], email: params[:email], password: params[:password], wallet: params[:wallet])
+    if user = User.create(username: params[:username], email: params[:email], password: params[:password], wallet: params[:wallet])
     session[:user_id] = user.id
     redirect to "users/show"
+    else
+      params[:password] != params[:confirm_password]
+      flash[:error] = "Your credentials were invalid. Try again!"
+      erb :'/signup'
+    end
   end
 
   get '/login' do
@@ -24,7 +33,10 @@ class UsersController < ApplicationController
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id
       flash[:message] = "Welcome back #{user.username}"
-      redirect "/users/show"
+      redirect "users/#{user.username}/show"
+    elsif user.id != session[:user_id]
+      flash[:error] = "Please signup."
+      redirect to '/signup'
     else
       flash[:error] = "Your credentials were invalid. Try again!"
       redirect to '/login'
@@ -34,7 +46,6 @@ class UsersController < ApplicationController
   get "/users/:id" do
     # find the user
     @user = User.find_by(id: params[:id])
-    @users = User.all
     erb :"/users/show"
   end
 

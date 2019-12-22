@@ -1,6 +1,6 @@
-class Investments < ActiveRecord::Migration
+class CreateCompanyStockRelationships < ActiveRecord::Migration
   def change
-    create_table :investment do |t|
+    create_table :investments do |t|
       t.integer :user_id
       t.integer :company_id
 

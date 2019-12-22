@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 20191219214545) do
     t.integer "user_id"
   end
 
-  create_table "investment", force: :cascade do |t|
+  create_table "investments", force: :cascade do |t|
     t.integer "user_id"
     t.integer "company_id"
   end
