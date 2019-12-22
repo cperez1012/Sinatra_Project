@@ -2,11 +2,7 @@ class UsersController < ApplicationController
 
   # render login form
   get "/login" do
-    if !logged_in?
-      erb :'users/login'
-    else
-      redirect to '/investhub'
-    end
+    erb :'users/login'
   end
 
   post '/login' do
@@ -14,9 +10,11 @@ class UsersController < ApplicationController
     user = User.find_by(username: params[:username])
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id
-      redirect to "/show/#{user.username}"
+      flash[:message] = "Welcome back #{user.username}"
+      redirect to "/users/#{user.id}"
     else
-      redirect to '/signup'
+      flash[:error] = "Your credentials were invalid. Try again!"
+      redirect to '/login'
     end
   end
 
@@ -24,14 +22,10 @@ class UsersController < ApplicationController
   # get sign up route that renders signup form
   get '/signup' do
     #render my sign form
-    if !logged_in?
-      erb :'users/create_user'
-    else
-      redirect to '/investhub'
-    end
+    erb :'users/signup'
   end
 
-  post '/signup' do
+  post '/users' do
     # binding.pry
     if params[:username].empty? || params[:password].empty? || params[:email].empty? || params[:confirm_password].empty?
       redirect to '/signup'
@@ -40,8 +34,8 @@ class UsersController < ApplicationController
       flash[:error] = "Your credentials were invalid. Try again!"
     else
       user = User.create(username: params[:username], password: params[:password], email: params[:email])
-      session[:user_id] = user.id
-      redirect to '/investhub'
+      session[:user_id] = @user.id
+      redirect to '/users/#{@user.id}'
     end
   end
 
@@ -54,4 +48,5 @@ class UsersController < ApplicationController
       redirect to '/'
     end
   end
+
 end

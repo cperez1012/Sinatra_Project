@@ -20,22 +20,19 @@ class InvesthubController < ApplicationController
   end
 
   get '/investhub' do
-    if !logged_in?
-      redirect '/login'
-    end
-    @user = current_user
     @Companys = Company.all
     erb :'investhub/new'
   end
 
   post '/investhub' do
-    if params[:name].empty? || params[:image_url].empty? || params[:year_founded].empty? || params[:industry].empty? || params[:description].empty? || params[:user_id].empty?
+    company = Company.new(name: params[:name], image_url: params[:image_url], year_founded: params[:year_founded], industry: params[:industry], description: params[:description], user_id: current_user.id)
+    if company.save
+      flash[:message] = "Created company successfully!"
+      redirect "/investhub/#{show_investments.id}"
+    else
+      flash[:error] = "Company creation failed: #{investhub.errors.full_messages.to_sentence}"
       redirect "/investhub/new"
     end
-    investhub = Investhub.create(params)
-    investhub.user = current_user
-    investhub.save
-    redirect "/investhub/#{investment.id}"
   end
 
   get '/investhub/show_investments' do
