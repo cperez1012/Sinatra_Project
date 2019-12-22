@@ -25,7 +25,7 @@ class InvesthubController < ApplicationController
     end
     @user = current_user
     @Companys = Company.all
-    erb :'investhub/show_investments'
+    erb :'investhub/new'
   end
 
   post '/investhub' do
@@ -36,6 +36,18 @@ class InvesthubController < ApplicationController
     investhub.user = current_user
     investhub.save
     redirect "/investhub/#{investment.id}"
+  end
+
+  get '/investhub/show_investments' do
+    if logged_in?
+      erb :'/investhub/show_investments'
+    end
+  end
+
+  post '/investhub/show_investments' do
+    if params[:name].empty? || params[:image_url].empty? || params[:year_founded].empty? || params[:industry].empty? || params[:description].empty? || params[:user_id].empty?
+      redirect "/investhub/new"
+    end
   end
 
   get '/investhub/:id' do
