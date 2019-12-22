@@ -1,8 +1,17 @@
-<form action='/tweets' method="post">
-  Content:
-  <input type="text" name="content"><br>
-  Create Your Tweet:
+<h1>Create your new company to add to your Investhub:
 
+<form action='/investhub/<%= @user.id %>">' method="post">
+  <h3>Company Name:</h3>
+  <input type="text" name="name">
+  <h3>Company Logo:</h3>
+  <input type="text" name="image_url">
+  <h3>Company Year Founded:</h3>
+  <input type="text" name="year_founded">
+  <h3>Company Industry:</h3>
+  <input type="text" name="industry">
+  <h3>Company Description:</h3>
+  <input type="text" name="description">
+  <br>
   <input type="submit" id="submit" value="submit">
 
 </form>
