@@ -39,14 +39,14 @@ class UsersController < ApplicationController
   end
 end
 
-  post '/users' do
-    # will eventually need to add validations to confirm all inputs are filled out before creating user
-    @user = User.create(params)
-    # post sign up route to create user using params and add key/value pair to sessions hash
-    session[:user_id] = @user.id
-    # redirect to user profile
-    redirect "/users/#{@user.id}"
-  end
+  # post '/users' do
+  #   # will eventually need to add validations to confirm all inputs are filled out before creating user
+  #   @user = User.create(params)
+  #   # post sign up route to create user using params and add key/value pair to sessions hash
+  #   session[:user_id] = @user.id
+  #   # redirect to user profile
+  #   redirect "/users/#{@user.id}"
+  # end
 
   get '/logout' do
     if logged_in?
