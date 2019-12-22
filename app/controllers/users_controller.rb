@@ -33,11 +33,11 @@ class UsersController < ApplicationController
     elsif params[:password] != params[:confirm_password]
       flash[:error] = "Your credentials were invalid. Try again!"
     else
-    user = User.create(username: params[:username], password: params[:password], email: params[:email])
-    session[:user_id] = user.id
-    redirect to '/investhub'
+      user = User.create(username: params[:username], password: params[:password], email: params[:email])
+      session[:user_id] = user.id
+      redirect to '/investhub'
+    end
   end
-end
 
   # post '/users' do
   #   # will eventually need to add validations to confirm all inputs are filled out before creating user

@@ -21,7 +21,7 @@ class InvesthubController < ApplicationController
 
   get '/investhub' do
     @Companys = Company.all
-    erb :'investhub/new'
+    erb :'investhub/show_investments'
   end
 
   post '/investhub' do
