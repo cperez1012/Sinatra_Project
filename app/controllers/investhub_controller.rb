@@ -11,13 +11,13 @@ class InvesthubController < ApplicationController
     end
   end
 
-  get '/investhub/new' do
-    if logged_in?
-      erb :'investhub/new'
-    else
-      redirect '/login'
-    end
-  end
+  # get '/investhub/new' do
+  #   if logged_in?
+  #     erb :'investhub/new'
+  #   else
+  #     redirect '/login'
+  #   end
+  # end
 
   get '/investhub' do
     @Companys = Company.all
@@ -28,11 +28,15 @@ class InvesthubController < ApplicationController
     company = Company.new(name: params[:name], image_url: params[:image_url], year_founded: params[:year_founded], industry: params[:industry], description: params[:description], user_id: current_user.id)
     if company.save
       flash[:message] = "Created company successfully!"
-      redirect "/investhub/#{show_investments.id}"
+      redirect "/investhub/investments"
     else
       flash[:error] = "Company creation failed: #{investhub.errors.full_messages.to_sentence}"
       redirect "/investhub/new"
     end
+  end
+
+  post '/investhub/new' do
+    redirect to '/investhub/show_investments'
   end
 
   get '/investhub/show_investments' do
@@ -44,6 +48,8 @@ class InvesthubController < ApplicationController
   post '/investhub/show_investments' do
     if params[:name].empty? || params[:image_url].empty? || params[:year_founded].empty? || params[:industry].empty? || params[:description].empty? || params[:user_id].empty?
       redirect "/investhub/new"
+    else
+      redirect "/investhub/show_investments"
     end
   end
 
@@ -52,7 +58,7 @@ class InvesthubController < ApplicationController
       redirect "/login"
     end
     @investhub = Investhub.find(params[:id])
-    erb :'investhub/show_investments'
+    erb :'investhub/investments'
   end
 
   get '/investhub/:id/edit' do
