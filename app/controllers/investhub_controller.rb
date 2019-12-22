@@ -25,7 +25,7 @@ class InvesthubController < ApplicationController
     end
     @user = current_user
     @Companys = Company.all
-    erb :'/show_investments'
+    erb :'investhub/show_investments'
   end
 
   post '/investhub' do

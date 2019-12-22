@@ -14,7 +14,7 @@ class UsersController < ApplicationController
     user = User.find_by(username: params[:username])
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id
-      redirect to "#{user.username}/show"
+      redirect to "/show/#{user.username}"
     else
       redirect to '/signup'
     end
