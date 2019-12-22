@@ -28,8 +28,6 @@
     max-width: 960px;
     padding: 2.25%; /* 18px / 800px */
     width: 85%;
-    display: inline-block;
-    text-align: center;;
   }
 
   h1 {
@@ -49,11 +47,10 @@
   h3 {
     font-size: 18px;
     line-height: 36px;
-    text-align: center;
   }
 
   h4 {
-    text-align: center;
+    text-align: justify;
   }
 
   p {

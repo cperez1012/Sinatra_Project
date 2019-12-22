@@ -1,10 +1,8 @@
 class UsersController < ApplicationController
 
   get '/users/:slug' do
-    if logged_in? && current_user.slug == params[:slug]
-      @user = User.find_by_slug(params[:slug])
-      redirect to :'/users/show'
-    end
+    @user = current_user
+    erb :'users/show'
   end
 
   get '/signup' do
@@ -12,12 +10,12 @@ class UsersController < ApplicationController
   end
 
   post '/signup' do
-    if params[:username].empty? || params[:email].empty? || params[:password].empty? ||params[:wallet].empty?
+    if params[:username].empty? || params[:email].empty? || params[:password].empty?
       redirect '/signup'
     end
       user = User.create(username: params[:username], email: params[:email], password: params[:password], wallet: params[:wallet])
       session[:user_id] = user.id
-      redirect to "/show"
+    erb :"users/show"
   end
 
   get '/login' do
@@ -32,7 +30,7 @@ class UsersController < ApplicationController
     if user
       session[:user_id] = user.id
       flash[:message] = "Welcome back #{user.username}"
-      redirect to "/show"
+      erb :"/investhub"
     else
       flash[:error] = "Your credentials were invalid. Try again!"
       redirect to '/login'
@@ -58,11 +56,11 @@ class UsersController < ApplicationController
 
   post '/users' do
     # will eventually need to add validations to confirm all inputs are filled out before creating user
-    user = User.create(params)
+    @user = User.create(params)
     # post sign up route to create user using params and add key/value pair to sessions hash
-    session[:user_id] = user.id
+    session[:user_id] = @user.id
     # redirect to user profile
-    redirect "/users/#{user.id}"
+    redirect "/users/#{@user.id}"
   end
 
 end
