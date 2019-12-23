@@ -2,11 +2,11 @@
 
 <h2>Edits for <%= @user.username %></h2>
 
-  <form action="/users/<%= @user.id %>" method="POST">
+  <form action="/investhub/edit" method="POST">
     <input id="hidden" type="hidden" name="_method" value="patch">
     <label>Edit the Company's Name:</label>
     <br>
-    <input type="text" name="company[name]" value="<%= @user.company.name %>">
+    <!-- <input type="text" name="company[name]" value="<%= @user.company.name %>"> -->
 
     <br>
     <p>Select an existing pet or create a new one below.</p>

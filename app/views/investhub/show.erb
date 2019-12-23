@@ -1,10 +1,12 @@
 <h1>Welcome, <%= @user.username %>, Here Are All Of Your Investments</h1>
 
-<%=@user.companys.each do |company| %>
+<%=@user.institutions.each do |institution| %>
 
-<%=company.name%>
+<%=institution.name%>
 
-<form class="" action="/investhub/<%=@user.company.id %>" method="post">
+<% end %>
+
+<form class="" action="/investhub/<%=@user.institution.id %>" method="post">
   <input type="hidden" name="_method" value="delete">
   <input type="submit" name="" value="Delete This Company">
-</form> -->
+</form>

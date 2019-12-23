@@ -16,7 +16,7 @@ class UsersController < ApplicationController
 
     if @user.save
         puts "User successfully saved"
-      flash[:error] = "Welcome, username: @user.username!"
+      flash[:message] = "Welcome, #{@user.username}!"
       session[:user_id] = @user.id
 
       redirect to "/users/#{@user.slug}"
