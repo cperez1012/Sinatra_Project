@@ -1,4 +1,4 @@
-class InvesthubController < ApplicationController
+class InstitutionsController < ApplicationController
   #
   get '/investhub' do
       @investments = Investment.all

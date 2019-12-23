@@ -1,0 +1,4 @@
+class InvestmentsController < ApplicationController
+
+
+end

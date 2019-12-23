@@ -5,5 +5,7 @@ if ActiveRecord::Migrator.needs_migration?
 end
 
 use UsersController
-use InvesthubController
+use InvestmentsController
+use InstitutionsController
+use StocksController
 run ApplicationController

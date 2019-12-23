@@ -1,66 +1,71 @@
 class UsersController < ApplicationController
 
-  get '/users/:slug' do
-    @user = current_user
-    erb :'users/show'
-  end
-
   get '/signup' do
-    erb :'users/signup'
+    if logged_in?
+      @user = current_user
+      redirect to "/users/#{@user.slug}"
+    else
+      erb :'users/signup'
+    end
   end
 
   post '/signup' do
-    if params[:username].empty? || params[:email].empty? || params[:password].empty?
-      redirect '/signup'
+    @user = User.new(username: params[:username], email: params[:email], password: params[:password])
+
+    if @user.save
+      flash[:error] = "Welcome, username: @user.username!"
+      seesion[:user_id] = @user.id
+
+      redirect to "/users/#{@user.slug}"
+    elsif User.find_by(email: params[:email])
+      flash[:error] = "Signup email is already taken"
+      redirect to '/signup'
+    elsif User.find_by_slug(@user.slug)
+      flash[:error] = "Username is already taken"
+      redirect to '/signup'
+    else
+      flash[:error] = "Your credentials were invalid. Try again!"
+      redirect to '/signup'
     end
-      user = User.create(username: params[:username], email: params[:email], password: params[:password], wallet: params[:wallet])
-      session[:user_id] = user.id
-    erb :"users/show"
   end
 
   get '/login' do
     if logged_in?
-      redirect to '/show'
+      redirect to "/users/#{current_user.slug}"
+    else
+      erb :'users/login'
     end
-    erb :'users/login'
   end
 
   post '/login' do
-    user = User.find_by(username: params[:username]).authenticate(params[:password])
-    if user
-      session[:user_id] = user.id
-      flash[:message] = "Welcome back #{user.username}"
-      erb :"/investhub"
+    @user = User.find_by(username: params[:username])
+    if @user&.authenticate(params[:password])
+      session[:user_id] = @user.id
+      # flash[:message] = "Welcome back #{user.username}"
+      redirect to "/users/#{current_user.slug}"
     else
       flash[:error] = "Your credentials were invalid. Try again!"
-      redirect to '/login'
+      redirect to "/login"
     end
   end
-
-  get "/users/:id" do
-    # find the user
-    @user = User.find_by(id: params[:id])
-    erb :"/users/show"
-  end
-
   # LOG OUT
 # get logout that clears the session hash
   get '/logout' do
   #binding.pry
-    session.clear
+    session.clear if logged_in?
   #binding.pry
   # redirect to home/landing page
-    redirect '/login'
+    redirect '/'
   end
 
-
-  post '/users' do
-    # will eventually need to add validations to confirm all inputs are filled out before creating user
-    @user = User.create(params)
-    # post sign up route to create user using params and add key/value pair to sessions hash
-    session[:user_id] = @user.id
-    # redirect to user profile
-    redirect "/users/#{@user.id}"
+  get '/users/:slug' do
+    if logged_in? && current_user.slug == params[:slug]
+      # @user = User.find_by_slug(@user.slug)
+      erb :'users/show'
+    else
+      flash[:error] = "User not found!"
+      redirect to "/"
+    end
   end
 
 end
