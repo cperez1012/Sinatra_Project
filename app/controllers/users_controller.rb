@@ -2,9 +2,11 @@ class UsersController < ApplicationController
 
   get '/signup' do
     if logged_in?
+
       @user = current_user
       redirect to "/users/#{@user.slug}"
     else
+
       erb :'users/signup'
     end
   end
@@ -13,17 +15,21 @@ class UsersController < ApplicationController
     @user = User.new(username: params[:username], email: params[:email], password: params[:password])
 
     if @user.save
+        puts "User successfully saved"
       flash[:error] = "Welcome, username: @user.username!"
-      seesion[:user_id] = @user.id
+      session[:user_id] = @user.id
 
       redirect to "/users/#{@user.slug}"
     elsif User.find_by(email: params[:email])
+      puts "Signup email is already taken"
       flash[:error] = "Signup email is already taken"
       redirect to '/signup'
     elsif User.find_by_slug(@user.slug)
+      puts "Username is already taken"
       flash[:error] = "Username is already taken"
       redirect to '/signup'
     else
+      puts "Your credentials were invalid. Try again!"
       flash[:error] = "Your credentials were invalid. Try again!"
       redirect to '/signup'
     end
