@@ -41,7 +41,7 @@ class UsersController < ApplicationController
     @user = User.find_by(username: params[:username])
     if @user&.authenticate(params[:password])
       session[:user_id] = @user.id
-      # flash[:message] = "Welcome back #{user.username}"
+      flash[:message] = "Welcome back #{@user.username}"
       redirect to "/users/#{current_user.slug}"
     else
       flash[:error] = "Your credentials were invalid. Try again!"
@@ -58,9 +58,24 @@ class UsersController < ApplicationController
     redirect '/'
   end
 
+  get '/users/' do
+    if logged_in? && current_user
+      erb :'users/show'
+    else
+      redirect to '/'
+    end
+  end
+
+  post '/users' do
+    @user = User.create(params)
+    session[:user_id] = @user.id
+    redirect "/users/#{@user.id}"
+  end
+
+
   get '/users/:slug' do
     if logged_in? && current_user.slug == params[:slug]
-      # @user = User.find_by_slug(@user.slug)
+      # User.find_by_slug(@user.slug)
       erb :'users/show'
     else
       flash[:error] = "User not found!"
