@@ -21,11 +21,6 @@ class ApplicationController < Sinatra::Base
     end
   end
 
-  # post '/users' do
-  #   @user = User.create(params)
-  #   session[:user_id] = @user.id
-  #   redirect "/users/#{@user.id}"
-  # end
 
   helpers do
     def logged_in?
