@@ -2,6 +2,7 @@ class InstitutionsController < ApplicationController
 
   get "/institutions" do
     if logged_in?
+      @institutions = Institution.all
       redirect to "/institutions/show"
     else
       erb :"users/login"

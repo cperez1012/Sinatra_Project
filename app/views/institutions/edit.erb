@@ -1,0 +1,8 @@
+<h1>Welcome <%= current_user.username %>!</h1>
+
+<h2>Here are all the institutions you have stocks invested in!</h2>
+
+<form action="/institutions/<%= @institutions.id %>" method="post">
+ <input id="hidden" type="hidden" name="_method" value="patch">
+
+</form>
