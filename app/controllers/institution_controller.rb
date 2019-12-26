@@ -9,14 +9,6 @@ class InstitutionsController < ApplicationController
     end
   end
 
-  get "/institutions" do
-    if logged_in?
-      erb :"/institutions/show"
-    else
-      redirect to "/index"
-    end
-  end
-
   get "/institutions/new" do
 
     if logged_in?
