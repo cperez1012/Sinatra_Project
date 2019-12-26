@@ -1,1 +1,24 @@
 <h1>Welcome <%= current_user.username %>!</h1>
+
+<h2>Here are all the institutions you have stocks invested in!</h2>
+
+
+Institutions: <%= @institutions.each do |institution| %>
+
+  <h3><%= @institution.name %></h3>
+  <img src="<%= @institution.image_url %>" alt="<%= @institution.name %>" height="200" width="200">
+  <br><br>
+  <strong>Created At: <%= @institution.created_at %></strong>
+  <p><%= @institution.description %></p>
+  <p>By: <%= @institution.user.name %></p>
+
+  <% if authorized_to_edit?(@institution) %>
+
+  <a href="/institutions/<%= @institution.id %>/edit">Edit Institution</a>
+
+  <form class="" action="/institutions/<%= @institution.id %>" method="post">
+    <input type="hidden" name="_method" value="delete">
+    <input type="submit" name="" value="Delete This Institution">
+  </form>
+
+  <% end %>

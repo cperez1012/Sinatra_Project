@@ -8,7 +8,7 @@ class InstitutionsController < ApplicationController
     end
   end
 
-  get "/institutions/show" do
+  get "/institutions" do
     if logged_in?
       erb :"/institutions/show"
     else
@@ -16,6 +16,36 @@ class InstitutionsController < ApplicationController
     end
   end
 
+  get "/institutions/new" do
+
+    if logged_in?
+      erb :"/institutions/new"
+    else
+      redirect to "/index"
+    end
+  end
+
+  post "/institutions/new" do
+    @institutions = Institution.new(name: params[:name], description: params[:description], year_founded: params[:year_founded], industry: params[:industry], image_url: params[:image_url], user_id: params[:user_id])
+    if @institutions.save
+        puts "User successfully saved institution"
+      flash[:message] = "Institution Added by #{@user.username}!"
+      session[:user_id] = @user.id
+
+      redirect to "/institutions/#{@user.slug}"
+    end
+  end
+
+  # get "/institutions/:id" do
+  #   # @institution = Institution.find(params[:id])
+  #   erb :"/institutions/show"
+  # end
+
+  patch '/institutions/:id' do
+    @institution = Institution.find(params[:id])
+    @institution.update(name: params[:name], description: params[:description], year_founded: params[:year_founded], industry: params[:industry], image_url: params[:image_url], user_id: params[:user_id])
+    redirect "/posts/#{@post.id}"
+  end
 #   get "/institutions/new" do
 #     if !logged_in?
 #       erb :"/institutions/new"
