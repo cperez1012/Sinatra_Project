@@ -1,10 +1,35 @@
-  <form action="/institutions" method="post">
-    <div class="row mt-5">
-      <div class="col-sm text-center h4">
+<h1>Create your new company to add to your Investhub:<h1>
 
-      </div>
-    <div class="col-sm text-center h4">
-    </div>
-    </div>
-    <button class="btn btn-lg btn-primary btn-block border border-muted mt-2" type="submit" value="submit">Submit</button>
+<form action='/investhub/new' method="post">
+  <h3>Company Name:</h3>
+  <input type="text" name="name">
+  <h3>Company Logo:</h3>
+  <input type="text" name="image_url">
+  <h3>Company Year Founded:</h3>
+  <input type="text" name="year_founded">
+  <h3>Company Industry:</h3>
+  <input type="text" name="industry">
+  <h3>Company Description:</h3>
+  <input type="text" name="description">
+  <br>
+
+  <form class="" action="/institutions/new" method="post">
+    <input type="submit" id="submit" value="Submit"> <input type="submit" id="submit" value="Logout">
+    <input type="hidden" name="_method" value="delete">
+    <input type="submit" name="" value="Delete This Company">
   </form>
+
+<% if logged_in? %>
+      <div>
+         <a href='/users/<%= current_user.slug %>' class="text-center my-4 btn-hover border border-0 rounded list-group-item list-group-item-action p-2 h3 font-weight-bold" style="background-color: rgba(1, 5, 58, .75);">Welcome <%= current_user.username %>!</a>
+      </div>
+      <div class="mb-3">
+        <a href='/users' class="btn btn-xlarge btn-lg btn-secondary border border-muted m-2">View User Index</a>
+        <a href='/users/<%= current_user.slug %>' class="btn btn-xlarge btn-lg btn-dark border border-muted m-2">View Your Profile</a>
+        <a href='/institutions' class="btn btn-xlarge btn-lg btn-primary border border-muted m-2">View Institution Index</a>
+      </div>
+
+     <%else%>
+         <a href='/login' class="btn btn-xlarge btn-lg btn-primary border border-muted m-2">Log in</a>
+         <a href='/signup' class="btn btn-xlarge btn-lg btn-secondary border border-muted m-2 ">Sign up</a>
+     <%end%>

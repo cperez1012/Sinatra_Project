@@ -2,9 +2,17 @@
 <h2>Track all your investments made</h2><br>
 <h3>Below is a list of options to choose from:</h3><br>
 
-<form action='/show' method="get">
-<a href="/institutions/show_investments">Show Detailed Institution</a>
-<a href="/institutions/new">Add New Institution</a>
-<a href="/institutions/edit_investments">Edit Institution</a>
-<a href="/investments/show">Manage Investments</a>
-</form>
+<% if logged_in? %>
+      <div>
+         <a href='/users/<%= current_user.slug %>' class="text-center my-4 btn-hover border border-0 rounded list-group-item list-group-item-action p-2 h3 font-weight-bold" style="background-color: rgba(1, 5, 58, .75);">Welcome <%= current_user.username %>!</a>
+      </div>
+      <div class="mb-3">
+        <a href='/users' class="btn btn-xlarge btn-lg btn-secondary border border-muted m-2">View User Index</a>
+        <a href='/users/<%= current_user.slug %>' class="btn btn-xlarge btn-lg btn-dark border border-muted m-2">View Your Profile</a>
+        <a href='/institutions' class="btn btn-xlarge btn-lg btn-primary border border-muted m-2">View Institution Index</a>
+      </div>
+
+     <%else%>
+         <a href='/login' class="btn btn-xlarge btn-lg btn-primary border border-muted m-2">Log in</a>
+         <a href='/signup' class="btn btn-xlarge btn-lg btn-secondary border border-muted m-2 ">Sign up</a>
+     <%end%>

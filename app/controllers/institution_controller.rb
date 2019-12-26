@@ -1,16 +1,29 @@
 class InstitutionsController < ApplicationController
 
+  get "/institutions" do
+    if logged_in?
+      redirect to "/institutions/show"
+    else
+      erb :"users/login"
+    end
+  end
+
   get "/institutions/new" do
-    redirect_if_not_logged_in
-    erb :"/institutions/new"
+    if !logged_in?
+      erb :"/institutions/new"
+    end
   end
 
   post "/institutions" do
-    redirect_if_not_logged_in
-      @institutions = current_user.institutions.new(params[:institution])
+    if !logged_in?
+      flash[:error] = "You must be logged in in to view that page."
+      redirect to "/"
+    end
+    session[:user_id] = @user.id
+      @institution = current_user.institutions.new(params[:institution])
       if @institution.save
         flash[:message] = "Institution Successfully Created. ADD Details Below:"
-        redirect to "/institutions/#{@institution.id}"
+        redirect to "/institutions/#{@user.id}"
       else
         flash[:error] = "Institution Creation Failure: #{@institution.errors.full_messages.to_sentence}"
         redirect '/institutions/new'
@@ -18,9 +31,12 @@ class InstitutionsController < ApplicationController
   end
 
   get "/institutions/:id" do
-    redirect_if_not_logged_in
+    if !logged_in?
+      flash[:error] = "You must be logged in in to view that page."
+      redirect to "/"
+    end
     session[:institution_id] = params[:id]
-    @institution = Institution.find(session[:institution_id])
+    @institution = Institution.find(session[:user_id])
     if @institution.share_status == true
       erb :'/institutions/show'
     else
@@ -34,18 +50,22 @@ class InstitutionsController < ApplicationController
   end
 
   get "/institutions/:id/edit" do
-    redirect_if_not_logged_in
+    if !logged_in?
     @institution = Institution.find(params[:id])
-    if @institution.user == current_user
-      erb :'institutions/edit'
-    else
-      flash[:error] = "You're Not Authorized to Edit that Workout!"
-      redirect to "/"
+      if @institution.user == current_user
+        erb :'institutions/edit'
+      else
+        flash[:error] = "You're Not Authorized to Edit that Workout!"
+        redirect to "/"
+      end
     end
   end
 
   patch "/institutions/:id" do
-    redirect_if_not_logged_in
+    if !logged_in?
+      flash[:error] = "You must be logged in in to view that page."
+      redirect to "/"
+    end
     @institution = Institution.find(params[:id])
     not_authorized_redirect
       if @institution.update(params[:institution])
@@ -58,7 +78,10 @@ class InstitutionsController < ApplicationController
   end
 
   delete "/institutions/:id" do
-    redirect_if_not_logged_in
+    if !logged_in?
+      flash[:error] = "You must be logged in in to view that page."
+      redirect to "/"
+    end
     @institution= Institutions.find(params[:id])
     if @institution.user == current_user
       @institution.destroy
