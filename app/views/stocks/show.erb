@@ -1,1 +1,6 @@
 <h1><%= current_user.username %>, Here are your Stocks!</h1>
+
+<form action="/institutions/<%= institutions.id %>" method="post">
+<input id="hidden" type="hidden" name="_method" value="delete">
+<button class="btn btn-sm btn-dark border border-muted" type="submit" value="submit">Submit Stocks</button>
+</form>

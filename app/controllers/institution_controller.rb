@@ -37,7 +37,7 @@ class InstitutionsController < ApplicationController
   patch '/institutions/:id' do
     @institution = Institution.find(params[:id])
     @institution.update(name: params[:name], description: params[:description], year_founded: params[:year_founded], industry: params[:industry], image_url: params[:image_url], user_id: params[:user_id])
-    redirect "/posts/#{@post.id}"
+    redirect "/institutions/#{@institution.id}"
   end
 #   get "/institutions/new" do
 #     if !logged_in?

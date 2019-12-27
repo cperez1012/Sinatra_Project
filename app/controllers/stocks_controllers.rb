@@ -27,6 +27,11 @@ class StocksController < ApplicationController
     end
   end
 
+  patch '/stocks/:id' do
+    @stock = Stock.find(params[:id])
+    @stock.update(price: params[:price], number_of_stocks: params[:number_of_stocks], institution_id: params[:institution_id])
+    redirect "/stocks/#{@stock.id}"
+  end
 
 
 end
