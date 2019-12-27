@@ -18,8 +18,8 @@ class StocksController < ApplicationController
   end
 
   post '/stocks' do
-    @stocks = Stock.new(price: params[:price], number_of_stocks: params[:number_of_stocks], institution_id: params[:institution_id])
-    if @stocks.save
+    @stock = Stock.new(price: params[:price], number_of_stocks: params[:number_of_stocks], institution_id: params[:institution_id])
+    if @stock.save
     flash[:message] = "Stock Added by #{@user.username}!"
     session[:user_id] = @user.id
 

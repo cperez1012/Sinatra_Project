@@ -2,7 +2,27 @@
 
 <h2>Here are all the institutions you have stocks invested in!</h2>
 
-<form action="/institutions/<%= @institutions.id %>" method="post">
- <input id="hidden" type="hidden" name="_method" value="patch">
+<h1>Update Institution</h1>
 
+<h2>Edits for <%= @institution.name %></h2>
+
+  <form action="/institutions/<%= @institution.id %>" method="POST">
+    <input id="hidden" type="hidden" name="_method" value="patch">
+    <label>Edit the Institution's Name:</label>
+    <br>
+    <input type="text" name="institution[name]" id="institution_name" value="<%= @institution.name %>">
+    <label>Edit the Institution's Description:</label>
+    <br>
+    <input type="text" name="institution[description]" id="institution_description" value="<%= @institution.description %>">
+    <label>Edit the Institution's Industry:</label>
+    <br>
+    <input type="text" name="institution[industry]" id="institution_industry" value="<%= @institution.industry %>">
+    <label>Edit the Institution's Year Founded:</label>
+    <br>
+    <input type="text" name="institution[year_founded]" id="institution_year_founded" value="<%= @institution.year_founded %>">
+    <label>Edit the Institution's Logo:</label>
+    <br>
+    <input type="text" name="institution[image_url]" id="institution_image_url" value="<%= @institution.image_url %>">
+
+  <br>
 </form>
