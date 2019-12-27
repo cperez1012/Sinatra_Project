@@ -78,34 +78,34 @@ class InstitutionsController < ApplicationController
 #     end
 #   end
 #
-#   get "/institutions/:id/edit" do
-#     if !logged_in?
-#     @institution = Institution.find(params[:id])
-#       if @institution.user == current_user
-#         erb :'institutions/edit'
-#       else
-#         flash[:error] = "You're Not Authorized to Edit that Workout!"
-#         redirect to "/"
-#       end
-#     end
-#   end
+  get "/institutions/:id/edit" do
+    if !logged_in?
+    @institution = Institution.find(params[:id])
+      if @institution.user == current_user
+        erb :'institutions/edit'
+      else
+        flash[:error] = "You're Not Authorized to Edit!"
+        redirect to "/"
+      end
+    end
+  end
 #
-#   patch "/institutions/:id" do
-#     if !logged_in?
-#       flash[:error] = "You must be logged in in to view that page."
-#       redirect to "/"
-#     else
-#       @institution = Institution.find(params[:id])
-#       authorized_to_edit
-#       if @institution.update(params[:institution])
-#         flash[:message] = "Institution Successfully Edited."
-#         redirect to "/institutions/#{@institution.id}"
-#       else
-#       flash[:error] = "Institution Edit Failure: #{@institution.errors.full_messages.to_sentence}"
-#       redirect to "/institutions/#{@institution.id}"
-#       end
-#     end
-#   end
+  patch "/institutions/:id" do
+    if !logged_in?
+      flash[:error] = "You must be logged in in to view that page."
+      redirect to "/"
+    else
+      @institution = Institution.find(params[:id])
+      authorized_to_edit
+      if @institution.update(params[:name], params[:description], params[:industry], params[:year_founded], params[:image_url])
+        flash[:message] = "Institution Successfully Edited."
+        redirect to "/institutions/#{@institution.id}"
+      else
+      flash[:error] = "Institution Edit Failure: #{@institution.errors.full_messages.to_sentence}"
+      redirect to "/institutions/#{@institution.id}"
+      end
+    end
+  end
 #
 #   delete "/institutions/:id" do
 #     if !logged_in?
